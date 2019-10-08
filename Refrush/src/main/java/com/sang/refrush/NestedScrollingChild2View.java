@@ -14,6 +14,8 @@ import androidx.core.view.NestedScrollingChild2;
 import androidx.core.view.NestedScrollingChildHelper;
 import androidx.core.view.ViewCompat;
 
+import com.sang.refrush.utils.FRLog;
+
 import static androidx.core.view.ViewCompat.TYPE_TOUCH;
 
 /**
@@ -26,7 +28,6 @@ import static androidx.core.view.ViewCompat.TYPE_TOUCH;
 
 public class NestedScrollingChild2View extends LinearLayout implements NestedScrollingChild2 {
 
-    private static String TAG = "PING";
 
     private NestedScrollingChildHelper mScrollingChildHelper = new NestedScrollingChildHelper(this);
     private final int mMinFlingVelocity;
@@ -304,7 +305,7 @@ public class NestedScrollingChild2View extends LinearLayout implements NestedScr
             int y = mScroller.getCurrY();
             int dx = mLastFlingX - x;
             int dy = mLastFlingY - y;
-            Log.i(TAG, "y: " + y + " X: " + x + " dx: " + dx + " dy: " + dy);
+            FRLog.i(  "y: " + y + " X: " + x + " dx: " + dx + " dy: " + dy);
             mLastFlingX = x;
             mLastFlingY = y;
             //在子控件处理fling之前，先判断父控件是否消耗

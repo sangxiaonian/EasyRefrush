@@ -13,6 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.core.view.NestedScrollingParent2;
 import androidx.core.view.NestedScrollingParentHelper;
 import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.sang.refrush.utils.FRLog;
 
 
 /**
@@ -57,6 +60,9 @@ public class NestedScrollingParent2Layout extends LinearLayout implements Nested
      */
     @Override
     public boolean onStartNestedScroll(@NonNull View child, @NonNull View target, int axes, int type) {
+        if (mContentView!=null&&mContentView instanceof RecyclerView){
+            ((RecyclerView) mContentView).stopScroll();
+        }
         return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
@@ -89,23 +95,23 @@ public class NestedScrollingParent2Layout extends LinearLayout implements Nested
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         //这里不管手势滚动还是fling都处理
-        boolean hideTop = dy > 0 && getScrollY() < mTopViewHeight-100 ;
+        boolean hideTop = dy > 0 && getScrollY() < mTopViewHeight;
         boolean showTop = dy < 0 && getScrollY() >= 0 && !target.canScrollVertically(-1);
-        if (hideTop || showTop) {
+        boolean cunsumedTop=hideTop||showTop;
+
+        //对于底部布局
+        boolean hideBottom = dy < 0 && getScrollY() > mTopViewHeight;
+        boolean showBottom = dy > 0 && getScrollY() >= mTopViewHeight && (getScrollY() <= mTopViewHeight + mBottomViewHeight) && !target.canScrollVertically(1);
+        boolean cunsumedBottom=hideBottom||showBottom;
+
+        if (cunsumedTop) {
+            scrollBy(0, dy);
+            consumed[1] = dy;
+        } else if (cunsumedBottom) {
             scrollBy(0, dy);
             consumed[1] = dy;
         }
-
-        //如果是上滑
-        boolean hideBottom = dy < 0 && getScrollY() > -mBottomViewHeight-100 ;
-        boolean showBottom = dy > 0 && getScrollY() <= 0 && !target.canScrollVertically(-1);
-        if (hideBottom||showBottom){
-//            scrollBy(0, dy);
-//            consumed[1] = dy;
-        }
-
-
-        Log.e("PING", "--++++++++++--");
+        FRLog.d(cunsumedBottom+">>>"+getScrollY() + ">>>>"  + ">>>>>>" + dy);
     }
 
 
@@ -127,7 +133,7 @@ public class NestedScrollingParent2Layout extends LinearLayout implements Nested
         } else if (dyUnconsumed > 0 && target == mTopView) {
             mContentView.scrollBy(0, dyUnconsumed);
         }
-        Log.e("PING", dyUnconsumed + ">>>>>>");
+        FRLog.e(dyUnconsumed + ">>>>>>"+(target==mTopView));
 
     }
 
@@ -181,21 +187,34 @@ public class NestedScrollingParent2Layout extends LinearLayout implements Nested
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (mTopView!=null) {
-            mTopViewHeight = mTopView.getMeasuredHeight();
+        if (mTopView != null) {
+            mTopViewHeight = mTopView.getMeasuredHeight()  ;
         }
-        if (mBottomView!=null) {
-            mBottomViewHeight = mBottomView.getMeasuredHeight();
+        if (mBottomView != null) {
+            mBottomViewHeight = mBottomView.getMeasuredHeight() - 1 ;
         }
     }
 
     @Override
     public void scrollTo(int x, int y) {
+        FRLog.d("scrollTo:" + y);
         if (y < 0) {
             y = 0;
         }
-        if (y > mTopViewHeight) {
-            y = mTopViewHeight;
+
+        //对滑动距离进行修正
+        if (mContentView.canScrollVertically(1)){
+            //可以向上滑栋
+            if (y > mTopViewHeight) {
+                y =  mTopViewHeight;
+            }
+        }else if ( (mContentView.canScrollVertically(-1))){
+            if (y < mTopViewHeight) {
+                y =  mTopViewHeight;
+            }
+        }
+        if (y >mTopViewHeight+mBottomViewHeight) {
+            y =  mTopViewHeight+mBottomViewHeight;
         }
         super.scrollTo(x, y);
     }
