@@ -2,12 +2,11 @@ package com.sang.refrush;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
-import android.widget.OverScroller;
+import android.widget.Scroller;
 
 import androidx.annotation.Nullable;
 import androidx.core.view.NestedScrollingChild2;
@@ -18,13 +17,7 @@ import com.sang.refrush.utils.FRLog;
 
 import static androidx.core.view.ViewCompat.TYPE_TOUCH;
 
-/**
- * Author:  andy.xwt
- * Date:    2019-06-28 00:12
- * Description: NestedScrollingChild2与NestedScrollingChild接口的最大差异就是处理fling,
- * 所以我们直接查看fling效果的处理
- * 由于是继承自linerLayout，因此不具备滑动功能
- */
+
 
 public class NestedScrollingChild2View extends LinearLayout implements NestedScrollingChild2 {
 
@@ -32,7 +25,7 @@ public class NestedScrollingChild2View extends LinearLayout implements NestedScr
     private NestedScrollingChildHelper mScrollingChildHelper = new NestedScrollingChildHelper(this);
     private final int mMinFlingVelocity;
     private final int mMaxFlingVelocity;
-    private OverScroller mScroller;
+    private Scroller mScroller;
     private int lastY = -1;
     private int lastX = -1;
     private int[] offset = new int[2];
@@ -41,12 +34,6 @@ public class NestedScrollingChild2View extends LinearLayout implements NestedScr
     private boolean fling;//判断当前是否是可以进行惯性滑动
 
 
-    /**
-     * Simple constructor to use when creating a view from code.
-     *
-     * @param context The Context the view is running in, through which it can
-     *                access the current theme, resources, etc.
-     */
 
     public NestedScrollingChild2View(Context context) {
         this(context, null);
@@ -65,7 +52,7 @@ public class NestedScrollingChild2View extends LinearLayout implements NestedScr
         ViewConfiguration vc = ViewConfiguration.get(context);
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity();
         mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity();
-        mScroller = new OverScroller(context);
+        mScroller = new Scroller(context);
     }
 
 
@@ -131,25 +118,6 @@ public class NestedScrollingChild2View extends LinearLayout implements NestedScr
         mScrollingChildHelper.stopNestedScroll(type);
     }
 
-
-    @Override
-    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
-        return mScrollingChildHelper.dispatchNestedPreFling(velocityX, velocityY);
-    }
-
-
-    /**
-     * 当父控件不拦截子控件的fling,那么子控件会调用该方法将fling，传给父控件进行处理
-     *
-     * @param velocityX 水平方向上的速度 velocityX > 0  向左滑动，反之向右滑动
-     * @param velocityY 竖直方向上的速度 velocityY > 0  向上滑动，反之向下滑动
-     * @param consumed  子控件是否可以消耗该fling，也可以说是子控件是否消耗掉了该fling,如果消耗掉了，则父控件不再处理fling
-     * @return 父控件是否消耗了该fling
-     */
-    @Override
-    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
-        return mScrollingChildHelper.dispatchNestedFling(velocityX, velocityY, consumed);
-    }
 
     /**
      * 设置当前子控件是否支持嵌套滑动，如果不支持，那么父控件是不能够响应嵌套滑动的
@@ -305,7 +273,7 @@ public class NestedScrollingChild2View extends LinearLayout implements NestedScr
             int y = mScroller.getCurrY();
             int dx = mLastFlingX - x;
             int dy = mLastFlingY - y;
-            FRLog.i(  "y: " + y + " X: " + x + " dx: " + dx + " dy: " + dy);
+            FRLog.i("y: " + y + " X: " + x + " dx: " + dx + " dy: " + dy);
             mLastFlingX = x;
             mLastFlingY = y;
             //在子控件处理fling之前，先判断父控件是否消耗

@@ -16,11 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sang.refrush.utils.FRLog;
 
 
-/**
- * Author:  andy.xwt
- * Date:    2018/8/8 14:28
- * Description:NestedScrolling2机制下的嵌套滑动，实现NestedScrollingParent2接口下，处理fling效果的区别
- */
 
 public class NestedScrollingParent2Layout extends LinearLayout implements NestedScrollingParent2 {
 
@@ -121,7 +116,6 @@ public class NestedScrollingParent2Layout extends LinearLayout implements Nested
             scrollBy(0, dy);
             consumed[1] = dy;
         }
-        FRLog.d(target+">>>"+cunsumedBottom + ">>>" + getScrollY() + ">>>>" + ">>>>>>" + dy);
     }
 
 
@@ -147,7 +141,6 @@ public class NestedScrollingParent2Layout extends LinearLayout implements Nested
                 mContentView.scrollBy(0, dyUnconsumed);
             }
         }
-        FRLog.e(dyUnconsumed + ">>>>>>" + (target == mTopView));
 
     }
 

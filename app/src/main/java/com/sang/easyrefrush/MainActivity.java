@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         manager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(manager);
         List<String> date=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             date.add("我是数据"+i);
         }
         recyclerView.setAdapter(new XAdapter<String>(this,date) {

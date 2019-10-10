@@ -10,9 +10,9 @@
         android:background="#abcdef">
 
         <TextView
+            android:background="@mipmap/img_head"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="整个过程大概分为两部分：绑定和滚动分发。绑定部分可以理解为 Child 向上遍历找 NestedScrollingParent2 的过程，找到后调用它的 onStartNestedScroll 方法，如果返回 true 则说明这个 Parent 想接收 nested scroll，Child 会紧接着调 onNestedScrollAccepted 方法表示同意 Parent 处理自己分发的 nested scroll，对应上图中的 1 2 3。滚动分发部分 Child 将自己的 scroll 分为三个阶段 before scroll after，before 和 after 分发给 parent 消费，scroll 阶段让自己消费，这三个阶段是按顺序进行的，换句话说如果前一步消耗完了 scroll，那后面的阶段就没有 scroll 可以消费。这样做的好处是让 Parent 可以在自己消费之前或者之后消费 scroll，如果 Parent 想在 Child 之前消费就在 onNestedPreScroll 方法里处理，否则就在 onNestedScroll 方法里，对应上图中的 4 5 步。上面介绍到的一些通用逻辑被封装在 NestedScrollingChildHelper 和 NestedScrollingParentHelper 中，在 NestedScrolling(Parent2/Child2) 的方法中可以调用 Helper 类中的同名方法，比如 NestedScrollingChild2.startNestedScroll 方法中实现了向上遍历寻找 NestedScrollingParent 的逻辑。"
             android:textColor="#333333" />
 
     </com.sang.refrush.NestedScrollingChild2View>
@@ -29,9 +29,9 @@
         android:background="#abcdef">
 
         <TextView
+            android:background="@mipmap/img_head"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="整个过程大概分为两部分：绑定和滚动分发。绑定部分可以理解为 Child 向上遍历找 NestedScrollingParent2 的过程，找到后调用它的 onStartNestedScroll 方法，如果返回 true 则说明这个 Parent 想接收 nested scroll，Child 会紧接着调 onNestedScrollAccepted 方法表示同意 Parent 处理自己分发的 nested scroll，对应上图中的 1 2 3。滚动分发部分 Child 将自己的 scroll 分为三个阶段 before scroll after，before 和 after 分发给 parent 消费，scroll 阶段让自己消费，这三个阶段是按顺序进行的，换句话说如果前一步消耗完了 scroll，那后面的阶段就没有 scroll 可以消费。这样做的好处是让 Parent 可以在自己消费之前或者之后消费 scroll，如果 Parent 想在 Child 之前消费就在 onNestedPreScroll 方法里处理，否则就在 onNestedScroll 方法里，对应上图中的 4 5 步。上面介绍到的一些通用逻辑被封装在 NestedScrollingChildHelper 和 NestedScrollingParentHelper 中，在 NestedScrolling(Parent2/Child2) 的方法中可以调用 Helper 类中的同名方法，比如 NestedScrollingChild2.startNestedScroll 方法中实现了向上遍历寻找 NestedScrollingParent 的逻辑。"
             android:textColor="#333333" />
 
     </com.sang.refrush.NestedScrollingChild2View>
