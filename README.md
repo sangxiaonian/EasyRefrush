@@ -161,5 +161,6 @@ public interface NestedScrollingParent2 extends NestedScrollingParent {
 
 至此， NestedScrollingParent2 和 NestedScrollingChild2 的流程和主要方法已经很清晰了；但是没有仅仅看到这里应该还有比较难以理解，毕竟没有代码的API和耍流氓没什么区别，接下来，还是上源码；
 
- https://juejin.im/post/5d9e8f9451882516d83478af
+[更多介绍]( https://juejin.im/post/5d9e8f9451882516d83478af)
+
    
