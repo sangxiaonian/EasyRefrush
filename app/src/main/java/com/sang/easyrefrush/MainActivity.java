@@ -1,19 +1,18 @@
 package com.sang.easyrefrush;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sang.refrush.adapter.XAdapter;
 import com.sang.refrush.holder.BaseHolder;
 import com.sang.refrush.utils.DividerGridItemDecoration;
+import com.sang.refrush.utils.FRLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        recyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+            @Override
+            public boolean onFling(int velocityX, int velocityY) {
+                FRLog.e("---------onFling---------");
+                return false;
+            }
+        });
     }
 
     private void initView() {

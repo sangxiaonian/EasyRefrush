@@ -273,7 +273,6 @@ public class NestedScrollingChild2View extends LinearLayout implements NestedScr
             int y = mScroller.getCurrY();
             int dx = mLastFlingX - x;
             int dy = mLastFlingY - y;
-            FRLog.i("y: " + y + " X: " + x + " dx: " + dx + " dy: " + dy);
             mLastFlingX = x;
             mLastFlingY = y;
             //在子控件处理fling之前，先判断父控件是否消耗
